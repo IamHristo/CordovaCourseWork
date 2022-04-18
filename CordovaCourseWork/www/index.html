@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"> -->
+
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" href="css/index.css">
+
+    <link rel="stylesheet" href="onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="onsenui/css/onsen-css-components.min.css">
+    <script src="onsenui/js/onsenui.min.js"></script>
+
+
+    <title>Cordova Course Work</title>
+</head>
+
+<body>
+    <ons-page>
+        <ons-toolbar>
+            <div class="center">Cordvoa Course Work</div>
+        </ons-toolbar>
+        <ons-tabbar swipeable position="auto">
+            <ons-tab page="Home" label="Home" icon="ion-ios-home, material:md-home" active> </ons-tab>
+            <ons-tab page="Settings" label="Settings" icon="ion-ios-settings, material:md-settings" active-icon="ion-ios-hammer"> </ons-tab>
+            <ons-tab page="Battery" label="Battery" icon="ion-ios-battery, material:md-battery" active-icon="md-face"> </ons-tab>
+        </ons-tabbar>
+    </ons-page>
+    <template id="Home">
+         <ons-page id="Tab1">
+           <p style="text-align: center;">
+             Начална страница.
+             <ons-button modifier="cta">Try Me</ons-button>
+             <ons-button modifier="large--quiet" onclick="testFunction()">large--quite</ons-button>
+           </p>
+         </ons-page>
+       </template>
+
+    <template id="Settings">
+         <ons-page id="Tab2">
+           <p style="text-align: center;">
+             Информация за устройството.
+           </p>
+         </ons-page>
+    </template>
+
+    <template id="Battery">
+        <ons-page id="battery">
+          <p style="text-align: center;">
+            Състояние на батерията.
+          </p>
+
+          <ons-range style="width: 100%;" disabled id="batteryStatus"></ons-range>
+        </ons-page>
+   </template>
+
+    <script src="cordova.js"></script>
+    <script src="js/index.js"></script>
+</body>
+
+</html>
