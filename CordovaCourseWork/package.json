@@ -21,7 +21,8 @@
       "android"
     ],
     "plugins": {
-      "cordova-plugin-battery-status": {}
+      "cordova-plugin-battery-status": {},
+      "cordova-plugin-device": {}
     }
   },
   "dependencies": {

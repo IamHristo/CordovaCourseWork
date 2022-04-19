@@ -7,7 +7,11 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
     console.log(navigator.camera);
-
+    console.log(device.model);
+    console.log(device.platform);
+    console.log(device.uuid);
+    console.log(device.version);
+    console.log(device.manufacturer);
 
 }
 
@@ -29,9 +33,17 @@ function onFail(message) {
     alert('Failed because: ' + message);
 }
 
+document.addEventListener('init', function(event) {
+    ons.ready(function() {
+        //ons.notification.toast("Test: ", { timeout: 1000, animation: 'fall' });
+
+    });
+});
+
 document.addEventListener('show', function(event) {
     ons.ready(function() {
-        if (event.target.matches('#battery')) {
+        var page = event.target;
+        if (page.matches('#batteryPage')) {
             //ons.notification.alert("You are on battery tab.");
 
             window.addEventListener("batteryStatus", showBatteryStatus, false);
@@ -42,6 +54,14 @@ document.addEventListener('show', function(event) {
                 }
                 document.getElementById("batteryStatus").value = status.level;
             }
+        }
+        if (page.matches('#settingsPage')) {
+            //ons.notification.alert("You are on settings tab.");
+            document.getElementById("deviceManufacturer").textContent = "Устройство: " + device.manufacturer;
+            document.getElementById("deviceModel").textContent = "Модел: " + device.model;
+            document.getElementById("platform").textContent = "Платформа: " + device.platform;
+            document.getElementById("platformVersion").textContent = "Версия: " + device.version;
+
         }
     });
 });
