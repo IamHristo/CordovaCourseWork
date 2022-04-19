@@ -3,6 +3,32 @@ function testFunction() {
 }
 
 
+document.addEventListener("deviceready", onDeviceReady, false);
+
+function onDeviceReady() {
+    console.log(navigator.camera);
+
+
+}
+
+function getPicture() {
+    navigator.camera.getPicture(onSuccess, onFail, {
+        quality: 10,
+        destinationType: Camera.DestinationType.DATA_URL
+    });
+}
+
+
+function onSuccess(imageURI) {
+    $('#myImage').attr('src', 'data:image/jpeg;base64,' + imageURI);
+    $('#myImage').css('display', 'block');
+    $('#myImage').show();
+}
+
+function onFail(message) {
+    alert('Failed because: ' + message);
+}
+
 document.addEventListener('show', function(event) {
     ons.ready(function() {
         if (event.target.matches('#battery')) {
