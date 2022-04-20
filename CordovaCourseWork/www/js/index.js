@@ -3,9 +3,11 @@ function testFunction() {
 }
 
 
+
 document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
+    console.log(cordova.file);
     console.log(navigator.camera);
     console.log(device.model);
     console.log(device.platform);
@@ -13,24 +15,128 @@ function onDeviceReady() {
     console.log(device.version);
     console.log(device.manufacturer);
 
+    window.addEventListener('filePluginIsReady', function() { console.log('File plugin is ready'); }, false);
+
+    document.getElementById("createFile").addEventListener("click", createFile);
+    document.getElementById("writeFile").addEventListener("click", writeFile);
+    document.getElementById("readFile").addEventListener("click", readFile);
+    document.getElementById("removeFile").addEventListener("click", removeFile);
+}
+
+
+
+function writeFile() {
+    var type = window.TEMPORARY;
+    var size = 5 * 1024 * 1024;
+    window.requestFileSystem(type, size, successCallback, errorCallback)
+
+    function successCallback(fs) {
+        fs.root.getFile('log.txt', { create: true }, function(fileEntry) {
+
+            fileEntry.createWriter(function(fileWriter) {
+                fileWriter.onwriteend = function(e) {
+                    alert('Write completed.');
+                };
+
+                fileWriter.onerror = function(e) {
+                    alert('Write failed: ' + e.toString());
+                };
+                var text = document.getElementById("textareaWrite").value;
+                console.log(text);
+                var blob = new Blob([text], { type: 'text/plain' });
+                fileWriter.write(blob);
+            }, errorCallback);
+        }, errorCallback);
+    }
+
+    function errorCallback(error) {
+        alert("ERROR: " + error.code)
+    }
+}
+
+function readFile() {
+    var type = window.TEMPORARY;
+    var size = 5 * 1024 * 1024;
+    window.requestFileSystem(type, size, successCallback, errorCallback)
+
+    function successCallback(fs) {
+        fs.root.getFile('log.txt', {}, function(fileEntry) {
+
+            fileEntry.file(function(file) {
+                var reader = new FileReader();
+
+                reader.onloadend = function(e) {
+                    var txtArea = document.getElementById('textareaRead');
+                    txtArea.value = this.result;
+                };
+                reader.readAsText(file);
+            }, errorCallback);
+        }, errorCallback);
+    }
+
+    function errorCallback(error) {
+        alert("ERROR: " + error.code)
+    }
+}
+
+function removeFile() {
+    var type = window.TEMPORARY;
+    var size = 5 * 1024 * 1024;
+    window.requestFileSystem(type, size, successCallback, errorCallback)
+
+    function successCallback(fs) {
+        fs.root.getFile('log.txt', { create: false }, function(fileEntry) {
+
+            fileEntry.remove(function() {
+                alert('File removed.');
+            }, errorCallback);
+        }, errorCallback);
+    }
+
+    function errorCallback(error) {
+        alert("ERROR: " + error.code)
+    }
+}
+
+function createFile() {
+    var type = window.TEMPORARY;
+    var size = 5 * 1024 * 1024;
+
+    window.requestFileSystem(type, size, successCallback, errorCallback)
+
+    function successCallback(fs) {
+        fs.root.getFile('log.txt', { create: true, exclusive: true }, function(fileEntry) {
+            alert('File creation successfull!')
+        }, errorCallback);
+    }
+
+    function errorCallback(error) {
+        alert("ERROR: " + error.code)
+    }
+
+}
+
+
+function onErrorLoadFs(message) {
+    alert('Failed because: ' + message);
 }
 
 function getPicture() {
-    navigator.camera.getPicture(onSuccess, onFail, {
-        quality: 10,
-        destinationType: Camera.DestinationType.DATA_URL
+    navigator.camera.getPicture(succeededCameraCallback, failedCameraCallback, {
+        quality: 25,
+        destinationType: Camera.DestinationType.DATA_URL,
+        cameraDirection: Camera.Direction.FRONT,
     });
 }
 
-
-function onSuccess(imageURI) {
-    $('#myImage').attr('src', 'data:image/jpeg;base64,' + imageURI);
+function succeededCameraCallback(imageData) {
+    $('#myImage').attr('src', 'data:image/jpeg;base64,' + imageData);
     $('#myImage').css('display', 'block');
     $('#myImage').show();
 }
 
-function onFail(message) {
-    alert('Failed because: ' + message);
+function failedCameraCallback(message) {
+    alert(message);
 }
 
 document.addEventListener('init', function(event) {

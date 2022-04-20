@@ -30,6 +30,7 @@
             <ons-tab page="Home" label="Home" icon="ion-ios-home, material:md-home" active> </ons-tab>
             <ons-tab page="Settings" label="Settings" icon="ion-ios-settings, material:md-settings" active-icon="ion-ios-hammer"> </ons-tab>
             <ons-tab page="Battery" label="Battery" icon="ion-ios-battery, material:md-battery" active-icon="md-face"> </ons-tab>
+            <ons-tab page="File" label="File" icon="ion-ios-battery, material:md-file"> </ons-tab>
         </ons-tabbar>
     </ons-page>
     <template id="Home">
@@ -64,6 +65,25 @@
           </p>
 
           <ons-range style="width: 100%;" disabled id="batteryStatus"></ons-range>
+        </ons-page>
+    </template>
+
+    <template id="File">
+        <ons-page id="filePage">
+            <ons-button modifier="cta" id="createFile">CREATE FILE</ons-button>
+            <ons-button modifier="cta" id="writeFile">WRITE FILE</ons-button>
+            <ons-button modifier="cta" id="readFile">READ FILE</ons-button>
+            <ons-button modifier="cta" id="removeFile">DELETE FILE</ons-button>
+            <div>
+                <label>Write:</label>
+                <textarea id="textareaWrite"></textarea>
+            </div>
+            <div>
+                <label>Read:</label>
+                <textarea id="textareaRead"></textarea>
+            </div>
+
+
         </ons-page>
     </template>
 
